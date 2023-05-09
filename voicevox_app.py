@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+from voicevox import Voicevox
 
 # Streamlit Community Cloudの「Secrets」からOpenAI API keyを取得
 openai.api_key = st.secrets.OpenAIAPI.openai_api_key
@@ -27,6 +28,10 @@ def communicate():
 
     st.session_state["user_input"] = ""  # 入力欄を消去
 
+# voicevox関数
+def sepak_voicevox(text):
+    vv = Voicevox()
+    vv.speak(text=text)
 
 # ユーザーインターフェイスの構築
 st.title("My AI Assistant")
@@ -41,5 +46,6 @@ if st.session_state["messages"]:
         speaker = "🙂"
         if message["role"]=="assistant":
             speaker="🤖"
+            sepak_voicevox(message['content'])
 
         st.write(speaker + ": " + message["content"])
